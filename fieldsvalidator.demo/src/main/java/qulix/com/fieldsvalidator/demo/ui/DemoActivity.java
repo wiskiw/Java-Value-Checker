@@ -1,11 +1,12 @@
-package qulix.com.fieldsvalidator.demo;
+package qulix.com.fieldsvalidator.demo.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
+import qulix.com.fieldsvalidator.demo.R;
 
-public class MainActivity extends AppCompatActivity {
+public class DemoActivity extends AppCompatActivity {
 
     private EditText field;
     private Button validate;
