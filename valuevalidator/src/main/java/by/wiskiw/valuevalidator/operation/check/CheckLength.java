@@ -1,26 +1,26 @@
-package by.wiskiw.valuevalidator.checker;
+package by.wiskiw.valuevalidator.operation.check;
 
 import android.content.Context;
-import by.wiskiw.valuevalidator.ValueChecker;
+import by.wiskiw.valuevalidator.CheckOperation;
 
 /**
  * Проверяет длину строки
  *
  * @author Andrey Yablonsky
  */
-public class LengthChecker extends ValueChecker<String> {
+public class CheckLength extends CheckOperation<String> {
 
     private int minLength;
     private int maxLength;
 
-    public LengthChecker(String failedMessage, int minLength, int maxLength) {
+    public CheckLength(String failedMessage, int minLength, int maxLength) {
         super(failedMessage);
 
         this.minLength = minLength;
         this.maxLength = maxLength;
     }
 
-    public LengthChecker(Context context, int messageRes, int minLength, int maxLength) {
+    public CheckLength(Context context, int messageRes, int minLength, int maxLength) {
         super(context, messageRes);
         this.minLength = minLength;
         this.maxLength = maxLength;
@@ -28,9 +28,7 @@ public class LengthChecker extends ValueChecker<String> {
 
     @Override
     public boolean isValueCorrect(String value) {
-
-        int len = value.length();
-        return minLength <= len && len <= maxLength;
+        return new CheckInRange(getFailedMessage(), minLength, maxLength).isValueCorrect(value.length());
     }
 
 }

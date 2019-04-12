@@ -1,20 +1,20 @@
-package by.wiskiw.valuevalidator.checker;
+package by.wiskiw.valuevalidator.operation.check;
 
 import android.content.Context;
-import by.wiskiw.valuevalidator.ValueChecker;
+import by.wiskiw.valuevalidator.CheckOperation;
 
 /**
  * Не допускает пустую строку или строку с whitespace символами
  *
  * @author Andrey Yablonsky
  */
-public class NotEmptyChecker extends ValueChecker<String> {
+public class CheckNotEmpty extends CheckOperation<String> {
 
-    public NotEmptyChecker(String failedMessage) {
+    public CheckNotEmpty(String failedMessage) {
         super(failedMessage);
     }
 
-    public NotEmptyChecker(Context context, int messageRes) {
+    public CheckNotEmpty(Context context, int messageRes) {
         super(context, messageRes);
     }
 

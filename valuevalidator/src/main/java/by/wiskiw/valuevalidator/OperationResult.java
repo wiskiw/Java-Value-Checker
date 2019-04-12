@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Содержит результат проверки данных
- *
  * @author Andrey Yablonsky
- * @see ValueValidator
  */
-public class ValidatorResult {
+public class OperationResult<R> {
 
     private List<String> failedMessages = new ArrayList<>();
+
+    private R value;
 
     /**
      * Добавляет сообщение о некорректных данных
@@ -31,10 +30,19 @@ public class ValidatorResult {
         return failedMessages.isEmpty();
     }
 
+    public void setValue(R value) {
+        this.value = value;
+    }
+
+    public R getValue() {
+        return value;
+    }
+
     /**
      * Возвращает список ошибок или пустой список
      */
     public List<String> getFailedMessages() {
         return failedMessages;
     }
+
 }

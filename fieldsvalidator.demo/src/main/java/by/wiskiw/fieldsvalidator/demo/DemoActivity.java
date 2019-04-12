@@ -7,19 +7,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import by.com.fieldsvalidator.demo.R;
-import by.wiskiw.valuevalidator.ValidatorResult;
-import by.wiskiw.valuevalidator.ValueValidator;
-import by.wiskiw.valuevalidator.checker.LengthChecker;
-import by.wiskiw.valuevalidator.checker.NotEmptyChecker;
-import by.wiskiw.valuevalidator.checker.NotNullChecker;
-import by.wiskiw.valuevalidator.checker.OnlyDigitsChecker;
+import by.wiskiw.valuevalidator.OperationChain;
+import by.wiskiw.valuevalidator.OperationResult;
+import by.wiskiw.valuevalidator.operation.Trim;
+import by.wiskiw.valuevalidator.operation.check.CheckInRange;
+import by.wiskiw.valuevalidator.operation.check.CheckNotEmpty;
+import by.wiskiw.valuevalidator.operation.check.CheckNotNull;
+import by.wiskiw.valuevalidator.operation.convert.ConvertStringToInt;
 
 public class DemoActivity extends AppCompatActivity {
 
     private EditText field;
-    private Button validate;
 
-    private ValueValidator<String> validator;
+    private OperationChain<String, Integer> chain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,35 +27,36 @@ public class DemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_demo);
 
         field = findViewById(R.id.field);
-        validate = findViewById(R.id.validate);
+        Button runChain = findViewById(R.id.runChain);
 
-        initValidator();
+        initOperationChain();
 
-        validate.setOnClickListener(new View.OnClickListener() {
+        runChain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validate(field.getText().toString());
+                runChain(field.getText().toString());
             }
         });
     }
 
-    private void initValidator() {
-        validator = new ValueValidator<>();
-
-        validator.addChecker(new NotNullChecker<String>("Value cannot be null!"), true)
-            .addChecker(new NotEmptyChecker("Value cannot be empty!"), true)
-            .addChecker(new LengthChecker("Wrong length!", 2, 6))
-            .addChecker(new OnlyDigitsChecker("String must contains only digits!"));
+    private void initOperationChain() {
+        chain = new OperationChain<String, Integer>()
+            .then(new CheckNotNull("Value cannot be null!"))
+            .then(new Trim())
+            .then(new CheckNotEmpty("Value cannot be empty!"))
+            .then(new ConvertStringToInt("Failed to convert to int"))
+            .then(new CheckInRange("Not in range", 100, 1000))
+        ;
     }
 
-    private void validate(String value) {
-        ValidatorResult result = validator.validate(value);
+    private void runChain(String value) {
+        OperationResult<Integer> chainResult = chain.run(value);
 
         String toastMessage;
-        if (result.isCorrect()) {
-            toastMessage = "All data correct";
+        if (chainResult.isCorrect()) {
+            toastMessage = "Chain success! " + chainResult.getValue() + 1;
         } else {
-            toastMessage = result.getFailedMessages().toString();
+            toastMessage = chainResult.getFailedMessages().toString();
         }
 
         Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();

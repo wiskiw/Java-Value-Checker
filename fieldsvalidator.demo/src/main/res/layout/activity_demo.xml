@@ -15,4 +15,10 @@
             android:layout_height="wrap_content"
             android:text="@string/validate_action_label"/>
 
+    <Button
+            android:id="@+id/runChain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/validate_run_chain_label"/>
+
 </LinearLayout>

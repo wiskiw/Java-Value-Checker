@@ -1,20 +1,20 @@
-package by.wiskiw.valuevalidator.checker;
+package by.wiskiw.valuevalidator.operation.check;
 
 import android.content.Context;
-import by.wiskiw.valuevalidator.ValueChecker;
+import by.wiskiw.valuevalidator.CheckOperation;
 
 /**
  * Допускает наличие только цифр в строке
  *
  * @author Andrey Yablonsky
  */
-public class OnlyDigitsChecker extends ValueChecker<String> {
+public class CheckIsOnlyDigits extends CheckOperation<String> {
 
-    public OnlyDigitsChecker(String failedMessage) {
+    public CheckIsOnlyDigits(String failedMessage) {
         super(failedMessage);
     }
 
-    public OnlyDigitsChecker(Context context, int messageRes) {
+    public CheckIsOnlyDigits(Context context, int messageRes) {
         super(context, messageRes);
     }
 
