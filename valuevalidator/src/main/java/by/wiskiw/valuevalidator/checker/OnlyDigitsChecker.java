@@ -1,6 +1,7 @@
-package qulix.com.fieldsvalidator.demo.validation.checker;
+package by.wiskiw.valuevalidator.checker;
 
-import qulix.com.fieldsvalidator.demo.validation.ValueChecker;
+import android.content.Context;
+import by.wiskiw.valuevalidator.ValueChecker;
 
 /**
  * Допускает наличие только цифр в строке
@@ -11,6 +12,10 @@ public class OnlyDigitsChecker extends ValueChecker<String> {
 
     public OnlyDigitsChecker(String failedMessage) {
         super(failedMessage);
+    }
+
+    public OnlyDigitsChecker(Context context, int messageRes) {
+        super(context, messageRes);
     }
 
     @Override

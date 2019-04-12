@@ -1,4 +1,4 @@
-package qulix.com.fieldsvalidator.demo.demo;
+package by.wiskiw.fieldsvalidator.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,13 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import qulix.com.fieldsvalidator.demo.R;
-import qulix.com.fieldsvalidator.demo.validation.ValidatorResult;
-import qulix.com.fieldsvalidator.demo.validation.ValueValidator;
-import qulix.com.fieldsvalidator.demo.validation.checker.LengthChecker;
-import qulix.com.fieldsvalidator.demo.validation.checker.NotEmptyChecker;
-import qulix.com.fieldsvalidator.demo.validation.checker.NotNullChecker;
-import qulix.com.fieldsvalidator.demo.validation.checker.OnlyDigitsChecker;
+import by.com.fieldsvalidator.demo.R;
+import by.wiskiw.valuevalidator.ValidatorResult;
+import by.wiskiw.valuevalidator.ValueValidator;
+import by.wiskiw.valuevalidator.checker.LengthChecker;
+import by.wiskiw.valuevalidator.checker.NotEmptyChecker;
+import by.wiskiw.valuevalidator.checker.NotNullChecker;
+import by.wiskiw.valuevalidator.checker.OnlyDigitsChecker;
 
 public class DemoActivity extends AppCompatActivity {
 
@@ -24,7 +24,7 @@ public class DemoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_demo);
 
         field = findViewById(R.id.field);
         validate = findViewById(R.id.validate);

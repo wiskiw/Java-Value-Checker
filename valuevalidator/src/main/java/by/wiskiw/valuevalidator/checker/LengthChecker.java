@@ -1,6 +1,7 @@
-package qulix.com.fieldsvalidator.demo.validation.checker;
+package by.wiskiw.valuevalidator.checker;
 
-import qulix.com.fieldsvalidator.demo.validation.ValueChecker;
+import android.content.Context;
+import by.wiskiw.valuevalidator.ValueChecker;
 
 /**
  * Проверяет длину строки
@@ -15,6 +16,12 @@ public class LengthChecker extends ValueChecker<String> {
     public LengthChecker(String failedMessage, int minLength, int maxLength) {
         super(failedMessage);
 
+        this.minLength = minLength;
+        this.maxLength = maxLength;
+    }
+
+    public LengthChecker(Context context, int messageRes, int minLength, int maxLength) {
+        super(context, messageRes);
         this.minLength = minLength;
         this.maxLength = maxLength;
     }

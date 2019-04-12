@@ -1,1 +1,1 @@
-include ':fieldsvalidator.demo'
+include ':fieldsvalidator.demo', ':valuevalidator'

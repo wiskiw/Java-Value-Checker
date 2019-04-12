@@ -1,4 +1,4 @@
-package qulix.com.fieldsvalidator.demo.validation;
+package by.wiskiw.valuevalidator;
 
 import java.util.ArrayList;
 import java.util.List;

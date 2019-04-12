@@ -1,4 +1,7 @@
-package qulix.com.fieldsvalidator.demo.validation;
+package by.wiskiw.valuevalidator;
+
+import android.content.Context;
+import android.support.annotation.StringRes;
 
 /**
  * Выполняет проверку условия
@@ -11,6 +14,10 @@ public abstract class ValueChecker<T> {
 
     public ValueChecker(String defaultFailedMessage) {
         this.defaultFailedMessage = defaultFailedMessage;
+    }
+
+    public ValueChecker(Context context, @StringRes int messageRes) {
+        this(context.getString(messageRes));
     }
 
     /**

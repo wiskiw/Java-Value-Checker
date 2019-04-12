@@ -1,6 +1,7 @@
-package qulix.com.fieldsvalidator.demo.validation.checker;
+package by.wiskiw.valuevalidator.checker;
 
-import qulix.com.fieldsvalidator.demo.validation.ValueChecker;
+import android.content.Context;
+import by.wiskiw.valuevalidator.ValueChecker;
 
 /**
  * Не допускает пустую строку или строку с whitespace символами
@@ -11,6 +12,10 @@ public class NotEmptyChecker extends ValueChecker<String> {
 
     public NotEmptyChecker(String failedMessage) {
         super(failedMessage);
+    }
+
+    public NotEmptyChecker(Context context, int messageRes) {
+        super(context, messageRes);
     }
 
     @Override

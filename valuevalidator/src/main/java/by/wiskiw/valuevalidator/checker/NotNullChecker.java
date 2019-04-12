@@ -1,6 +1,7 @@
-package qulix.com.fieldsvalidator.demo.validation.checker;
+package by.wiskiw.valuevalidator.checker;
 
-import qulix.com.fieldsvalidator.demo.validation.ValueChecker;
+import android.content.Context;
+import by.wiskiw.valuevalidator.ValueChecker;
 
 /**
  * Не допускает null значение
@@ -11,6 +12,10 @@ public class NotNullChecker<T extends Object> extends ValueChecker<T> {
 
     public NotNullChecker(String failedMessage) {
         super(failedMessage);
+    }
+
+    public NotNullChecker(Context context, int messageRes) {
+        super(context, messageRes);
     }
 
     @Override
