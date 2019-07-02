@@ -1,4 +1,4 @@
-package by.wiskiw.valuevalidator;
+package by.wiskiw.valuetransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +7,13 @@ import java.util.List;
  * Содержит результат проверки данных
  *
  * @author Andrey Yablonsky
- * @see ValueValidator
+ * @see ValueTransformer
  */
-public class ValidatorResult {
+public class ValidatorResult<T> {
 
     private List<String> failedMessages = new ArrayList<>();
+
+    private T resultValue;
 
     /**
      * Добавляет сообщение о некорректных данных
@@ -36,5 +38,17 @@ public class ValidatorResult {
      */
     public List<String> getFailedMessages() {
         return failedMessages;
+    }
+
+    public void setFailedMessages(List<String> failedMessages) {
+        this.failedMessages = failedMessages;
+    }
+
+    public T getResultValue() {
+        return resultValue;
+    }
+
+    public void setResultValue(T resultValue) {
+        this.resultValue = resultValue;
     }
 }
