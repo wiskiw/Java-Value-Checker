@@ -56,7 +56,7 @@ public class ValueTransformer {
             }
         }
 
-        result.setResultValue((R) currentValue);
+        result.setValue((R) currentValue);
         return result;
     }
 

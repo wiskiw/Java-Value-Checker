@@ -59,10 +59,6 @@ public class DemoActivity extends AppCompatActivity {
             .add(new OnlyDigitsChecker())
             .add(new StringToIntConverter())
             .add(new BoundsChecker(2, 20));
-
-        ValidatorResult<Integer> result = transformer.start("1234");
-        int inResult = result.getResultValue();
-
     }
 
     private void convert(String value) {
@@ -70,7 +66,8 @@ public class DemoActivity extends AppCompatActivity {
 
         String toastMessage;
         if (result.isCorrect()) {
-            toastMessage = String.format("All data correct: '%s'", result.getResultValue());
+            toastMessage = String.format("All data correct: '%s'", result.getValue());
+
         } else {
             List<String> failedMessages = result.getFailedMessages();
 

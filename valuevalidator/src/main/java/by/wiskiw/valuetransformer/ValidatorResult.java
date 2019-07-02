@@ -44,11 +44,11 @@ public class ValidatorResult<T> {
         this.failedMessages = failedMessages;
     }
 
-    public T getResultValue() {
+    public T getValue() {
         return resultValue;
     }
 
-    public void setResultValue(T resultValue) {
+    public void setValue(T resultValue) {
         this.resultValue = resultValue;
     }
 }
