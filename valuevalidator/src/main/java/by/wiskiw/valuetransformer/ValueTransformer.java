@@ -18,7 +18,7 @@ public class ValueTransformer {
     /**
      * Добавляет {@link ValueConverter} в список конвертеров
      */
-    public ValueTransformer addConverter(ValueConverter<?, ?> converter) {
+    public ValueTransformer add(ValueConverter<?, ?> converter) {
         converters.add((ValueConverter<Object, Object>) converter);
         return this;
     }

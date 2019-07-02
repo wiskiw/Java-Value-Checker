@@ -46,19 +46,23 @@ public class DemoActivity extends AppCompatActivity {
     private void initTransformer() {
         transformer = new ValueTransformer();
 
-//        transformer.addConverter(new NotNullChecker<String>("Value cannot be null!"))
-//            .addConverter(new NotEmptyChecker("Value cannot be empty!"))
-//            .addConverter(new LengthChecker("Wrong length!", 2, 6))
-//            .addConverter(new OnlyDigitsChecker("String must contains only digits!"))
-//            .addConverter(new StringToIntConverter())
-//            .addConverter(new BoundsChecker("Wrong value. Must be in [2, 20] range", 2, 20));
+//        transformer.add(new NotNullChecker<String>("Value cannot be null!"))
+//            .add(new NotEmptyChecker("Value cannot be empty!"))
+//            .add(new LengthChecker("Wrong length!", 2, 6))
+//            .add(new OnlyDigitsChecker("String must contains only digits!"))
+//            .add(new StringToIntConverter())
+//            .add(new BoundsChecker("Wrong value. Must be in [2, 20] range", 2, 20));
 
-        transformer.addConverter(new NotNullChecker<String>())
-            .addConverter(new NotEmptyChecker())
-            .addConverter(new LengthChecker(2, 6))
-            .addConverter(new OnlyDigitsChecker())
-            .addConverter(new StringToIntConverter())
-            .addConverter(new BoundsChecker(2, 20));
+        transformer.add(new NotNullChecker<String>())
+            .add(new NotEmptyChecker())
+            .add(new LengthChecker(2, 6))
+            .add(new OnlyDigitsChecker())
+            .add(new StringToIntConverter())
+            .add(new BoundsChecker(2, 20));
+
+        ValidatorResult<Integer> result = transformer.start("1234");
+        int inResult = result.getResultValue();
+
     }
 
     private void convert(String value) {
