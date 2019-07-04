@@ -3,13 +3,16 @@ package by.wiskiw.valuetransformer;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.support.annotation.NonNull;
+
 /**
- * Содержит результат проверки данных
+ * Содержит результат выполнения цепочки действий {@link ChainAction}.
  *
  * @author Andrey Yablonsky
- * @see ValueTransformer
+ * @see ActionChainExecutor
+ * @see ChainAction
  */
-public class ValidatorResult<T> {
+public class ChainActionResult<T> {
 
     private List<String> failedMessages = new ArrayList<>();
 
@@ -40,14 +43,29 @@ public class ValidatorResult<T> {
         return failedMessages;
     }
 
-    public void setFailedMessages(List<String> failedMessages) {
-        this.failedMessages = failedMessages;
+    /**
+     * Устанавливает список сообщения об ошибке
+     *
+     * @param failedMessages не {@code null} список.
+     */
+    public void setFailedMessages(@NonNull List<String> failedMessages) {
+        if (failedMessages != null) {
+            this.failedMessages = failedMessages;
+        } else {
+            throw new IllegalArgumentException("List of failed messages must not be null!");
+        }
     }
 
+    /**
+     * Возвращает значение результата
+     */
     public T getValue() {
         return resultValue;
     }
 
+    /**
+     * Устанавливает значение результата
+     */
     public void setValue(T resultValue) {
         this.resultValue = resultValue;
     }

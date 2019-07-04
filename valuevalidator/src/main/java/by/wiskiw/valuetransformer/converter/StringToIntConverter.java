@@ -1,15 +1,18 @@
 package by.wiskiw.valuetransformer.converter;
 
+import by.wiskiw.valuetransformer.ChainActionException;
+
 /**
- * Конвертер для преобразования {@link String} к {@link Integer}
+ * {@link ChainConvertAction} для преобразования {@link String} к {@link Integer}.
  *
  * @author Andrey Yablonsky
  */
-public class StringToIntConverter extends ValueConverter<String, Integer> {
+public final class StringToIntConverter extends ChainConvertAction<String, Integer> {
 
     private static final String DEFAULT_FAILED_MESSAGE = "Cannot convert '%s' to Integer!";
 
     public StringToIntConverter() {
+        super(DEFAULT_FAILED_MESSAGE);
     }
 
     public StringToIntConverter(String customFailedMessage) {
@@ -17,17 +20,12 @@ public class StringToIntConverter extends ValueConverter<String, Integer> {
     }
 
     @Override
-    public Integer convert(String value) throws ValueConvertException {
+    public Integer convert(String value) throws ChainActionException {
         try {
             return Integer.parseInt(value.trim());
         }
         catch (NumberFormatException nfe) {
-            throw new ValueConvertException(createFailedMessage(value), nfe);
+            throw new ChainActionException((value), nfe);
         }
-    }
-
-    @Override
-    protected String getDefaultFailedMessage() {
-        return DEFAULT_FAILED_MESSAGE;
     }
 }

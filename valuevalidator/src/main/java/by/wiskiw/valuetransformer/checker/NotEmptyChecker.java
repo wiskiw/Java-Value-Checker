@@ -1,17 +1,17 @@
 package by.wiskiw.valuetransformer.checker;
 
-import by.wiskiw.valuetransformer.ValueChecker;
-
 /**
- * Не допускает пустую строку или строку с whitespace символами
+ * {@link ChainCheckAction} для проверки строки на пустоту.
+ * Не допускает пустую строку или строку с whitespace символами.
  *
  * @author Andrey Yablonsky
  */
-public class NotEmptyChecker extends ValueChecker<String> {
+public class NotEmptyChecker extends ChainCheckAction<String> {
 
-    private static final String DEFAULT_FAILED_MESSAGE = "String value must not be empty!";
+    private static final String DEFAULT_FAILED_MESSAGE = "The string must not be empty!";
 
     public NotEmptyChecker() {
+        super(DEFAULT_FAILED_MESSAGE);
     }
 
     public NotEmptyChecker(String customFailedMessage) {
@@ -23,8 +23,4 @@ public class NotEmptyChecker extends ValueChecker<String> {
         return !value.replaceAll("\\s", "").isEmpty();
     }
 
-    @Override
-    protected String getDefaultFailedMessage() {
-        return DEFAULT_FAILED_MESSAGE;
-    }
 }

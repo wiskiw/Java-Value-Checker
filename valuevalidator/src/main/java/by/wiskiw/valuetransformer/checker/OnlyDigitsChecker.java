@@ -1,18 +1,18 @@
 package by.wiskiw.valuetransformer.checker;
 
-import by.wiskiw.valuetransformer.ValueChecker;
-
 /**
- * Допускает наличие только цифр в строке
+ * {@link ChainCheckAction} для проверки на наличие в строке только цифровых символов.
  *
  * @author Andrey Yablonsky
  */
-public class OnlyDigitsChecker extends ValueChecker<String> {
+public final class OnlyDigitsChecker extends ChainCheckAction<String> {
 
     private static final String DEFAULT_FAILED_MESSAGE = "Value must to consist of digits only!";
+
     private static final String DIGITS_REGEXP = "-?\\d+(\\.\\d+)?";
 
     public OnlyDigitsChecker() {
+        super(DEFAULT_FAILED_MESSAGE);
     }
 
     public OnlyDigitsChecker(String customFormatMessage) {
@@ -22,10 +22,5 @@ public class OnlyDigitsChecker extends ValueChecker<String> {
     @Override
     public boolean isValueCorrect(String value) {
         return value.matches(DIGITS_REGEXP);
-    }
-
-    @Override
-    protected String getDefaultFailedMessage() {
-        return DEFAULT_FAILED_MESSAGE;
     }
 }

@@ -1,13 +1,13 @@
 package by.wiskiw.valuetransformer.checker;
 
-import by.wiskiw.valuetransformer.ValueChecker;
+import android.support.annotation.Nullable;
 
 /**
- * Проверяет принадлежность числа заданному диапазону
+ * {@link ChainCheckAction} для проверки принадлежность числа заданному диапазону.
  *
  * @author Andrey Yablonsky
  */
-public class BoundsChecker extends ValueChecker<Integer> {
+public final class BoundsChecker extends ChainCheckAction<Integer> {
 
     private static final String DEFAULT_FAILED_MESSAGE = "Value must be in [%d, %d] range!";
 
@@ -15,6 +15,7 @@ public class BoundsChecker extends ValueChecker<Integer> {
     private int maxLength;
 
     public BoundsChecker(int minLength, int maxLength) {
+        super(DEFAULT_FAILED_MESSAGE);
         this.minLength = minLength;
         this.maxLength = maxLength;
     }
@@ -32,15 +33,8 @@ public class BoundsChecker extends ValueChecker<Integer> {
     }
 
     @Override
-    protected String getDefaultFailedMessage() {
-        return DEFAULT_FAILED_MESSAGE;
-    }
-
-    @Override
-    protected String createFailedMessage(Integer failedValue) {
-        String customFailedMessage = getCustomFailedMessage();
-        String failedMessageFormat = customFailedMessage != null ? customFailedMessage : getDefaultFailedMessage();
-
-        return String.format(failedMessageFormat, minLength, maxLength);
+    protected String getFailedMessage(@Nullable String preferredMessageTemplate, Integer failedValue) {
+        String template = preferredMessageTemplate != null ? preferredMessageTemplate : DEFAULT_FAILED_MESSAGE;
+        return String.format(template, minLength, maxLength);
     }
 }
