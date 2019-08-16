@@ -1,7 +1,7 @@
 ## What it is?
 Long story short, it's a utility for creating transform&validation sequence for values.
   
-## Usage example
+## How to use
 1. Create your own `ActionChainExecutor` object
 ```java
 ActionChainExecutor chainExecutor = new ActionChainExecutor();
@@ -17,14 +17,17 @@ chainExecutor
 ```java
 chainExecutor.add(new StringToIntConverter());
 ```
-4.  And some more checker
+4.  And some more checkers
 ```java
-chainExecutor.add(new RangeChecker(6, 12, "Value must be in [2, 20] range"));
+chainExecutor.add(new RangeChecker(6, 12, "Value must be in [6, 12] range"));
 ```
 5. And finally, start your sequence by calling `chainExecutor.run(value)` with source value to fetch the converted result
 ```java
 ChainActionResult<Integer> result = chainExecutor.run(value); 
 ```
+6. To check if the sequence was completed sequentially call `result.isCorrect()`. 
+To extract converted value use `result.getValue()`. Or take error message list by `result.getFailedMessages()`.
+
 Also you can create your own data converters and validators actions by expanding `ChainCheckAction<T>` and `ChainConvertAction<A, B>` classes.
   
 ## Default converters
