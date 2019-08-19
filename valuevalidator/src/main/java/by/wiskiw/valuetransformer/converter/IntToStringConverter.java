@@ -25,7 +25,7 @@ public final class IntToStringConverter extends ChainConvertAction<Integer, Stri
     }
 
     @Override
-    protected String convert(Integer value) throws ChainActionException {
+    public String convert(Integer value) throws ChainActionException {
         return value.toString();
     }
 }

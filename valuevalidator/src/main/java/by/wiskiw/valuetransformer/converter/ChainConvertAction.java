@@ -28,7 +28,7 @@ public abstract class ChainConvertAction<A, B> implements ChainAction<A, B> {
      * @return преобразованное значение типа {@link B}
      * @throws ChainActionException при ошибку конвертирования
      */
-    protected abstract B convert(A value) throws ChainActionException;
+    public abstract B convert(A value) throws ChainActionException;
 
     @Override
     public B execute(A value) throws ChainActionException {

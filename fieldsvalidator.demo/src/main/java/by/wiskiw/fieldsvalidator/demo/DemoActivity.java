@@ -12,11 +12,11 @@ import android.widget.Toast;
 import by.com.fieldsvalidator.demo.R;
 import by.wiskiw.valuetransformer.ActionChainExecutor;
 import by.wiskiw.valuetransformer.ChainActionResult;
+import by.wiskiw.valuetransformer.checker.ConvertibleChecker;
 import by.wiskiw.valuetransformer.checker.RangeChecker;
 import by.wiskiw.valuetransformer.checker.LengthChecker;
 import by.wiskiw.valuetransformer.checker.NotEmptyChecker;
 import by.wiskiw.valuetransformer.checker.NotNullChecker;
-import by.wiskiw.valuetransformer.checker.OnlyDigitsChecker;
 import by.wiskiw.valuetransformer.converter.IntToStringConverter;
 import by.wiskiw.valuetransformer.converter.StringToIntConverter;
 
@@ -50,15 +50,15 @@ public class DemoActivity extends AppCompatActivity {
 //        chainExecutor.add(new NotNullChecker<String>("Value cannot be null!"))
 //            .add(new NotEmptyChecker("Value cannot be empty!"))
 //            .add(new LengthChecker("Wrong length!", 2, 6))
-//            .add(new OnlyDigitsChecker("String must contains only digits!"))
+//            .add(new IntParcelableChecker("String must contains only digits!"))
 //            .add(new StringToIntConverter())
 //            .add(new RangeChecker("Wrong value. Must be in [2, 20] range", 2, 20));
 
         chainExecutor.add(new NotNullChecker<String>())
             .add(new NotEmptyChecker())
             .add(new LengthChecker(2, 6))
-            .add(new OnlyDigitsChecker())
             .add(new StringToIntConverter())
+//            .add(new ConvertibleChecker<>(new StringToIntConverter()))  // - alternative
             .add(new RangeChecker<>(2, 20, false))
             .add(new IntToStringConverter());
     }
