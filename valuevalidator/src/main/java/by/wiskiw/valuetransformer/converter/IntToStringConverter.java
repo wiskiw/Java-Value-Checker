@@ -1,13 +1,11 @@
 package by.wiskiw.valuetransformer.converter;
 
-import by.wiskiw.valuetransformer.ChainActionException;
-
 /**
- * {@link ChainConvertAction} для преобразования {@link Integer} к {@link String}.
+ * {@link ConvertAction} для преобразования {@link Integer} к {@link String}.
  *
  * @author Andrey Yablonsky
  */
-public final class IntToStringConverter extends ChainConvertAction<Integer, String> {
+public final class IntToStringConverter extends ConvertAction<Integer, String> {
 
     private static final String DEFAULT_FAILED_MESSAGE = "Cannot convert '%s' to String!";
 
@@ -25,7 +23,7 @@ public final class IntToStringConverter extends ChainConvertAction<Integer, Stri
     }
 
     @Override
-    public String convert(Integer value) throws ChainActionException {
+    public String convert(Integer value) {
         return value.toString();
     }
 }

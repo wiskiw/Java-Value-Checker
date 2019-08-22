@@ -8,17 +8,17 @@ import by.wiskiw.valuetransformer.ChainActionException;
  *
  * @author Andrey Yablonsky
  */
-public abstract class ChainConvertAction<A, B> implements ChainAction<A, B> {
+public abstract class ConvertAction<A, B> implements ChainAction<A, B> {
 
-    private final String preferredFailedMessageTemplate;
+    private final String messageFormat;
 
     /**
      * Основной конструктор. Позволяет задать собственный шаблон для сообщения об ошибке.
      *
-     * @param preferredMessageTemplate шаблон сообщения об ошибки
+     * @param messageFormat шаблон сообщения об ошибки
      */
-    public ChainConvertAction(String preferredMessageTemplate) {
-        this.preferredFailedMessageTemplate = preferredMessageTemplate;
+    public ConvertAction(String messageFormat) {
+        this.messageFormat = messageFormat;
     }
 
     /**
@@ -26,17 +26,17 @@ public abstract class ChainConvertAction<A, B> implements ChainAction<A, B> {
      *
      * @param value значение типа {@link A} для конвертирования
      * @return преобразованное значение типа {@link B}
-     * @throws ChainActionException при ошибку конвертирования
+     * @throws ConvertActionException при ошибке конвертирования
      */
-    public abstract B convert(A value) throws ChainActionException;
+    public abstract B convert(A value) throws ConvertActionException;
 
     @Override
     public B execute(A value) throws ChainActionException {
         try {
             return convert(value);
         }
-        catch (ChainActionException e) {
-            throw new ChainActionException(getFailedMessage(preferredFailedMessageTemplate, value), e);
+        catch (ConvertActionException convertException) {
+            throw new ChainActionException(getErrorMessage(messageFormat, value), convertException);
         }
     }
 
@@ -45,8 +45,8 @@ public abstract class ChainConvertAction<A, B> implements ChainAction<A, B> {
      *
      * @return предпочитаемый шаблон сообщения об ошибке
      */
-    protected String getFailedMessage(String preferredMessageTemplate, A failedValue) {
-        return String.format(preferredMessageTemplate, failedValue);
+    protected String getErrorMessage(String messageTemplate, A failedValue) {
+        return String.format(messageTemplate, failedValue);
     }
 
 }

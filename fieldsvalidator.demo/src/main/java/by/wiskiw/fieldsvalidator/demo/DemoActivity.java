@@ -1,8 +1,5 @@
 package by.wiskiw.fieldsvalidator.demo;
 
-import java.util.List;
-
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,21 +7,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import by.com.fieldsvalidator.demo.R;
-import by.wiskiw.valuetransformer.ActionChainExecutor;
-import by.wiskiw.valuetransformer.ChainActionResult;
-import by.wiskiw.valuetransformer.checker.ConvertibleChecker;
-import by.wiskiw.valuetransformer.checker.RangeChecker;
-import by.wiskiw.valuetransformer.checker.LengthChecker;
-import by.wiskiw.valuetransformer.checker.NotEmptyChecker;
-import by.wiskiw.valuetransformer.checker.NotNullChecker;
+import by.wiskiw.valuetransformer.ActionsExecutor;
+import by.wiskiw.valuetransformer.ActionsResult;
 import by.wiskiw.valuetransformer.converter.IntToStringConverter;
 import by.wiskiw.valuetransformer.converter.StringToIntConverter;
+import by.wiskiw.valuetransformer.rule.LengthRule;
+import by.wiskiw.valuetransformer.rule.NotEmptyRule;
+import by.wiskiw.valuetransformer.rule.NotNullRule;
+import by.wiskiw.valuetransformer.rule.RangeRule;
 
 public class DemoActivity extends AppCompatActivity {
 
     private EditText field;
 
-    private ActionChainExecutor chainExecutor;
+    private ActionsExecutor actionsExecutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,36 +41,33 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     private void initChain() {
-        chainExecutor = new ActionChainExecutor();
+        actionsExecutor = new ActionsExecutor();
 
-//        chainExecutor.add(new NotNullChecker<String>("Value cannot be null!"))
-//            .add(new NotEmptyChecker("Value cannot be empty!"))
-//            .add(new LengthChecker("Wrong length!", 2, 6))
+//        actionsExecutor.add(new NotNullRule<String>("Value cannot be null!"))
+//            .add(new NotEmptyRule("Value cannot be empty!"))
+//            .add(new LengthRule("Wrong length!", 2, 6))
 //            .add(new IntParcelableChecker("String must contains only digits!"))
 //            .add(new StringToIntConverter())
-//            .add(new RangeChecker("Wrong value. Must be in [2, 20] range", 2, 20));
+//            .add(new RangeRule("Wrong value. Must be in [2, 20] range", 2, 20));
 
-        chainExecutor.add(new NotNullChecker<String>())
-            .add(new NotEmptyChecker())
-            .add(new LengthChecker(2, 6))
+        actionsExecutor.add(new NotNullRule<String>())
+            .add(new NotEmptyRule())
+            .add(new LengthRule(2, 6))
             .add(new StringToIntConverter())
-//            .add(new ConvertibleChecker<>(new StringToIntConverter()))  // - alternative
-            .add(new RangeChecker<>(2, 20, false))
+//            .add(new ConvertibleRule<>(new StringToIntConverter()))  // - alternative
+            .add(new RangeRule<>(2, 20, false))
             .add(new IntToStringConverter());
     }
 
     private void convert(String value) {
-        ChainActionResult<Integer> result = chainExecutor.run(value);
+        ActionsResult<Integer> result = actionsExecutor.run(value);
 
         String toastMessage;
         if (result.isCorrect()) {
             toastMessage = String.format("All data are correct: '%s'", result.getValue());
 
         } else {
-            List<String> failedMessages = result.getFailedMessages();
-
-            toastMessage = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
-                String.join("\n", failedMessages) : failedMessages.toString();
+            toastMessage = result.getErrorMessage();
         }
 
         Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();

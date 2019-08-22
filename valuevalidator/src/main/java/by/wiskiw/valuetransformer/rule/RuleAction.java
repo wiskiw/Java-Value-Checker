@@ -1,6 +1,5 @@
-package by.wiskiw.valuetransformer.checker;
+package by.wiskiw.valuetransformer.rule;
 
-import android.support.annotation.Nullable;
 import by.wiskiw.valuetransformer.ChainAction;
 import by.wiskiw.valuetransformer.ChainActionException;
 
@@ -9,19 +8,26 @@ import by.wiskiw.valuetransformer.ChainActionException;
  *
  * @author Andrey Yablonsky
  */
-public abstract class ChainCheckAction<T> implements ChainAction<T, T> {
+public abstract class RuleAction<T> implements ChainAction<T, T> {
 
-    private static final String DEFAULT_FAILED_MESSAGE_FORMAT = "Value '%s' is not correct!";
+    private static final String DEFAULT_ERROR_MESSAGE_FORMAT = "Value '%s' is not correct!";
 
-    private String preferredMessageTemplate;
+    private String messageFormat;
 
     /**
      * Основной конструктор. Позволяет задать собственный шаблон для сообщения об ошибке.
      *
-     * @param preferredMessageTemplate шаблон сообщения об ошибки.
+     * @param messageFormat шаблон сообщения об ошибки.
      */
-    public ChainCheckAction(String preferredMessageTemplate) {
-        this.preferredMessageTemplate = preferredMessageTemplate;
+    public RuleAction(String messageFormat) {
+        this.messageFormat = messageFormat;
+    }
+
+    /**
+     * Secondary constructor. Use default error message template.
+     */
+    public RuleAction() {
+        this(DEFAULT_ERROR_MESSAGE_FORMAT);
     }
 
     /**
@@ -38,7 +44,7 @@ public abstract class ChainCheckAction<T> implements ChainAction<T, T> {
             return value;
 
         } else {
-            throw new ChainActionException(getFailedMessage(preferredMessageTemplate, value));
+            throw new ChainActionException(getFailedMessage(messageFormat, value));
         }
     }
 
@@ -47,9 +53,8 @@ public abstract class ChainCheckAction<T> implements ChainAction<T, T> {
      *
      * @return предпочитаемый шаблон сообщения об ошибке
      */
-    protected String getFailedMessage(@Nullable String preferredMessageTemplate, T failedValue) {
-        String template = preferredMessageTemplate != null ? preferredMessageTemplate : DEFAULT_FAILED_MESSAGE_FORMAT;
-        return String.format(template, failedValue);
+    protected String getFailedMessage(String messageFormat, T failedValue) {
+        return String.format(messageFormat, failedValue);
     }
 
 }

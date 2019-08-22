@@ -1,4 +1,4 @@
-package by.wiskiw.valuetransformer.checker;
+package by.wiskiw.valuetransformer.rule;
 
 
 import org.junit.jupiter.api.Test;
@@ -6,40 +6,40 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Текст-класс для {@link RangeChecker}
+ * Текст-класс для {@link RangeRule}
  *
  * @author Andrey Yablonsky
  */
-class RangeCheckerTest {
+class RangeRuleTest {
 
     @Test
     void intNoBordersRangeTest() {
         int minBorder = -7;
         int maxBorder = 7;
 
-        RangeChecker<Integer> rangeChecker = new RangeChecker<>(minBorder, maxBorder, false);
+        RangeRule<Integer> rangeRule = new RangeRule<>(minBorder, maxBorder, false);
 
         String correctMessageTemplate = "Value '%d' must not be correct for inner border (%d..%d)!";
 
         int maxCorrectValue = maxBorder - 1;
-        assertTrue(rangeChecker.isValueCorrect(maxCorrectValue),
+        assertTrue(rangeRule.isValueCorrect(maxCorrectValue),
             String.format(correctMessageTemplate, maxCorrectValue, minBorder, maxBorder));
 
         int minCorrectValue = minBorder + 1;
-        assertTrue(rangeChecker.isValueCorrect(minCorrectValue),
+        assertTrue(rangeRule.isValueCorrect(minCorrectValue),
             String.format(correctMessageTemplate, minCorrectValue, minBorder, maxBorder));
 
         int middleCorrectValue = 1;
-        assertTrue(rangeChecker.isValueCorrect(middleCorrectValue),
+        assertTrue(rangeRule.isValueCorrect(middleCorrectValue),
             String.format(correctMessageTemplate, middleCorrectValue, minBorder, maxBorder));
 
 
         String failedMessageTemplate = "Value '%d' must be correct for inner border (%d..%d)!";
 
-        assertFalse(rangeChecker.isValueCorrect(minBorder),
+        assertFalse(rangeRule.isValueCorrect(minBorder),
             String.format(failedMessageTemplate, minBorder, minBorder, maxBorder));
 
-        assertFalse(rangeChecker.isValueCorrect(maxBorder),
+        assertFalse(rangeRule.isValueCorrect(maxBorder),
             String.format(failedMessageTemplate, minBorder, minBorder, maxBorder));
     }
 
@@ -48,16 +48,16 @@ class RangeCheckerTest {
         int minBorder = -7;
         int maxBorder = 7;
 
-        RangeChecker<Integer> rangeChecker = new RangeChecker<>(minBorder, maxBorder, true);
+        RangeRule<Integer> rangeRule = new RangeRule<>(minBorder, maxBorder, true);
 
         String messageTemplate = "Value '%d' must be correct for border [%d..%d]!";
 
         // проверка границ
-        assertTrue(rangeChecker.isValueCorrect(minBorder), String.format(messageTemplate, minBorder, minBorder, maxBorder));
-        assertTrue(rangeChecker.isValueCorrect(maxBorder), String.format(messageTemplate, maxBorder, minBorder, maxBorder));
+        assertTrue(rangeRule.isValueCorrect(minBorder), String.format(messageTemplate, minBorder, minBorder, maxBorder));
+        assertTrue(rangeRule.isValueCorrect(maxBorder), String.format(messageTemplate, maxBorder, minBorder, maxBorder));
 
         int middleCorrectValue = 1;
-        assertTrue(rangeChecker.isValueCorrect(middleCorrectValue),
+        assertTrue(rangeRule.isValueCorrect(middleCorrectValue),
             String.format(messageTemplate, middleCorrectValue, minBorder, maxBorder));
 
     }
@@ -65,13 +65,13 @@ class RangeCheckerTest {
     @Test
     void intAccurateTest() {
         int accurateValue = 123;
-        RangeChecker<Integer> rangeChecker = new RangeChecker<>(accurateValue);
+        RangeRule<Integer> rangeRule = new RangeRule<>(accurateValue);
 
-        assertTrue(rangeChecker.isValueCorrect(accurateValue),
+        assertTrue(rangeRule.isValueCorrect(accurateValue),
             String.format("Value '%d' must be correct for accurate range checker = %d!", accurateValue, accurateValue));
 
         int wrongValue = accurateValue - 111;
-        assertFalse(rangeChecker.isValueCorrect(wrongValue),
+        assertFalse(rangeRule.isValueCorrect(wrongValue),
             String.format("Value '%d' must not be for accurate range checker = %d!", wrongValue, accurateValue));
     }
 

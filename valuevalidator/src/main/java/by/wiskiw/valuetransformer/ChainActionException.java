@@ -18,4 +18,7 @@ public class ChainActionException extends IllegalArgumentException {
         super(message, cause);
     }
 
+    public ChainActionException(Throwable cause) {
+        super(cause);
+    }
 }

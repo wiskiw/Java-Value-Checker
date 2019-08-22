@@ -1,4 +1,4 @@
-package by.wiskiw.valuetransformer.checker;
+package by.wiskiw.valuetransformer.rule;
 
 
 import org.junit.jupiter.api.Test;
@@ -6,18 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Текст-класс для {@link RegexChecker}
+ * Текст-класс для {@link RegexRule}
  *
  * @author Andrey Yablonsky
  */
-class RegexCheckerTest {
+class RegexRuleTest {
 
     @Test
     void onlyDigitsTest() {
         String onlyDigitsRegex = "-?\\d+";
         String correctValue = "-0123456789";
 
-        ChainCheckAction<String> checker = new RegexChecker(onlyDigitsRegex);
+        RuleAction<String> checker = new RegexRule(onlyDigitsRegex);
 
         String correctMessageTemplate = "Value '%s' must be correct for '%s' regex!";
         checkTrue(checker, correctMessageTemplate, onlyDigitsRegex, correctValue);
@@ -33,7 +33,7 @@ class RegexCheckerTest {
         String smallLettersRegex = "[a-z]+";
         String correctValue = "adfasdfasdvasaw";
 
-        ChainCheckAction<String> checker = new RegexChecker(smallLettersRegex);
+        RuleAction<String> checker = new RegexRule(smallLettersRegex);
 
         String correctMessageTemplate = "Value '%s' must be correct for '%s' regex!";
         checkTrue(checker, correctMessageTemplate, smallLettersRegex, correctValue);
@@ -44,11 +44,11 @@ class RegexCheckerTest {
         checkFalse(checker, failedMessageTemplate, smallLettersRegex, wrongValue);
     }
 
-    private void checkTrue(ChainCheckAction<String> checker, String messageTemplate, String regex, String value) {
+    private void checkTrue(RuleAction<String> checker, String messageTemplate, String regex, String value) {
         assertTrue(checker.isValueCorrect(value), String.format(messageTemplate, value, regex));
     }
 
-    private void checkFalse(ChainCheckAction<String> checker, String messageTemplate, String regex, String value) {
+    private void checkFalse(RuleAction<String> checker, String messageTemplate, String regex, String value) {
         assertFalse(checker.isValueCorrect(value), String.format(messageTemplate, value, regex));
     }
 

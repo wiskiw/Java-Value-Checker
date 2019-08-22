@@ -3,30 +3,30 @@
 Long story short, it's a utility for creating transform&validation sequence for values.  
     
 ## How to use  
-1. Create your own `ActionChainExecutor` object  
+1. Create your own `ActionsExecutor` object  
 ```java  
-ActionChainExecutor chainExecutor = new ActionChainExecutor();  
+ActionsExecutor actionsExecutor = new ActionsExecutor();  
 ```  
 2. Add few `ChainCheckAction` actions for check value  
 ```java  
-chainExecutor  
-	.add(new NotNullChecker<String>("ALARMA! Value cannot be null!"))
-	.add(new NotEmptyChecker("String must not be empty! Check input value.")) 
-	...
+actionsExecutor  
+    .add(new NotNullRule<String>("ALARMA! Value cannot be null!"))
+    .add(new NotEmptyRule("String must not be empty! Check input value.")) 
+    ...
  ```  
  
 3. Add data type converter  
 ```java  
-chainExecutor.add(new StringToIntConverter());  
+actionsExecutor.add(new StringToIntConverter());  
 ```  
 5. And some more checkers  
 ```java  
-chainExecutor.add(new RangeChecker(6, 12, "Value must be in [6, 12] range"));  
+actionsExecutor.add(new RangeRule(6, 12, "Value must be in [6, 12] range"));  
 ```  
 6. And finally, start your sequence by calling `chainExecutor.run(value)` with source value to fetch the converted result  
 
 ```java  
-ChainActionResult<Integer> result = chainExecutor.run(value); 
+ActionsResult<Integer> result = actionsExecutor.run(value); 
 ```  
 
 7. To check if the sequence was completed sequentially call `result.isCorrect()`.   
@@ -36,18 +36,18 @@ Also you can create your own data converters and validators actions by expanding
     
 ### Full example
 ```java
-ActionChainExecutor chainExecutor = new ActionChainExecutor()  
-	.add(new NotNullChecker<String>("ALARMA! Value cannot be null!"))
-	.add(new NotEmptyChecker("String must not be empty! Check input value."))
+ActionsExecutor actionsExecutor = new ActionsExecutor()  
+    .add(new NotNullRule<String>("ALARMA! Value cannot be null!"))
+    .add(new NotEmptyRule("String must not be empty! Check input value."))
     .add(new StringToIntConverter())
-    .add(new RangeChecker(6, 12, "Value must be in [6, 12] range"));
+    .add(new RangeRule(6, 12, "Value must be in [6, 12] range"));
   
-ChainActionResult<Integer> result = chainExecutor.run("123");  
+ActionsResult<Integer> result = actionsExecutor.run("123");  
   
 if (result.isCorrect()) {  
-	System.out.println(String.format("It's all good! Value %d", result.getValue()));  
+    System.out.println(String.format("It's all good! Value %d", result.getValue()));  
 } else {  
-	System.out.println(String.format("Sequence failed! %s", result.getFailedMessages().toString()));  
+    System.out.println(String.format("Sequence failed! %s", result.getErrorMessage()));  
 }
 ```
 
@@ -58,12 +58,12 @@ For simple converting there are few default converters:
   
 ## Default checkers  
 Default data checkers:  
-* `ConvertibleChecker` - checking if value can be converted using specified converter
-* `RegexChecker` - checking is it string matching a regex template
-* `LengthChecker` - checking the length of a string  
-* `NotEmptyChecker` - checking string for emptiness  
-* `RangeChecker` - check if `Comparable<T>` value is between range borders  
-* `NotNullChecker` - checking object for null  
+* `ConvertibleRule` - checking if value can be converted using specified converter
+* `RegexRule` - checking is it string matching a regex template
+* `LengthRule` - checking the length of a string  
+* `NotEmptyRule` - checking string for emptiness  
+* `RangeRule` - check if `Comparable<T>` value is between range borders  
+* `NotNullRule` - checking object for null  
   
 ## Contacts & Info  
 Have any questions or suggestions? Chat me [telegram](https://t.me/wiski_w) or mail to ayablonski23@gmail.com

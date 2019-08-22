@@ -1,14 +1,14 @@
-package by.wiskiw.valuetransformer.checker;
+package by.wiskiw.valuetransformer.rule;
 
 /**
- * {@link ChainCheckAction} для проверки принадлежность числа типа {@link T} заданному диапазону.
+ * {@link RuleAction} для проверки принадлежность числа типа {@link T} заданному диапазону.
  *
  * @author Andrey Yablonsky
  */
-public final class RangeChecker<T> extends ChainCheckAction<Comparable<T>> {
+public final class RangeRule<T> extends RuleAction<Comparable<T>> {
 
-    private static final String DEFAULT_FAILED_MESSAGE = "Value must be in [%d, %d] range!";
-    private static final String ACCURATE_DEFAULT_FAILED_MESSAGE = "Value must equals %d!";
+    private static final String DEFAULT_ERROR_MESSAGE = "Value must be in [%d, %d] range!";
+    private static final String DEFAULT_ACCURATE_ERROR_MESSAGE = "Value must equals %d!";
 
     private T minValue;
     private T maxValue;
@@ -20,10 +20,10 @@ public final class RangeChecker<T> extends ChainCheckAction<Comparable<T>> {
      * @param minValue нижняя граница диапазона
      * @param maxValue верхняя граница диапазона
      * @param takeBounds учитывать ли границы. Если {@code true}, то значения равные граничным будут допустимы.
-     * @param customFailedMessage формат сообщения при ошибке
+     * @param messageTemplate формат сообщения при ошибке
      */
-    public RangeChecker(T minValue, T maxValue, boolean takeBounds, String customFailedMessage) {
-        super(customFailedMessage);
+    public RangeRule(T minValue, T maxValue, boolean takeBounds, String messageTemplate) {
+        super(messageTemplate);
 
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -31,34 +31,34 @@ public final class RangeChecker<T> extends ChainCheckAction<Comparable<T>> {
     }
 
     /**
-     * Реализация {@link #RangeChecker(T, T, boolean, String)} со стандартным форматом сообщения.
+     * Реализация {@link #RangeRule(T, T, boolean, String)} со стандартным форматом сообщения.
      *
      * @param minValue нижняя граница диапазона
      * @param maxValue верхняя граница диапазона
      * @param takeBounds учитывать ли границы. Если {@code true}, то значения равные граничным будут допустимы.
      */
 
-    public RangeChecker(T minValue, T maxValue, boolean takeBounds) {
-        this(minValue, maxValue, takeBounds, DEFAULT_FAILED_MESSAGE);
+    public RangeRule(T minValue, T maxValue, boolean takeBounds) {
+        this(minValue, maxValue, takeBounds, DEFAULT_ERROR_MESSAGE);
     }
 
     /**
      * Дополнительный конструктор. Используется для проверки значения на точное соответствие.
      *
      * @param accurateValue единственно верное значение.
-     * @param customFailedMessage формат сообщения при ошибке
+     * @param messageTemplate формат сообщения при ошибке
      */
-    public RangeChecker(T accurateValue, String customFailedMessage) {
-        this(accurateValue, accurateValue, true, customFailedMessage);
+    public RangeRule(T accurateValue, String messageTemplate) {
+        this(accurateValue, accurateValue, true, messageTemplate);
     }
 
     /**
-     * Реализация {@link #RangeChecker(T, String)} со стандартным форматом сообщения.
+     * Реализация {@link #RangeRule(T, String)} со стандартным форматом сообщения.
      *
      * @param accurateValue единственно верное значение.
      */
-    public RangeChecker(T accurateValue) {
-        this(accurateValue, ACCURATE_DEFAULT_FAILED_MESSAGE);
+    public RangeRule(T accurateValue) {
+        this(accurateValue, DEFAULT_ACCURATE_ERROR_MESSAGE);
     }
 
     public T getMinValue() {
@@ -85,7 +85,7 @@ public final class RangeChecker<T> extends ChainCheckAction<Comparable<T>> {
     }
 
     @Override
-    protected String getFailedMessage(String preferredMessageTemplate, Comparable<T> failedValue) {
-        return String.format(preferredMessageTemplate, minValue, maxValue);
+    protected String getFailedMessage(String messageFormat, Comparable<T> failedValue) {
+        return String.format(messageFormat, minValue, maxValue);
     }
 }
