@@ -7,7 +7,7 @@ Long story short, it's a utility for creating transform&validation sequence for 
 ```java  
 ActionsExecutor actionsExecutor = new ActionsExecutor();  
 ```  
-2. Add few `ChainCheckAction` actions for check value  
+2. Add few `RuleAction` actions for check value  
 ```java  
 actionsExecutor  
     .add(new NotNullRule<String>("ALARMA! Value cannot be null!"))
@@ -19,7 +19,7 @@ actionsExecutor
 ```java  
 actionsExecutor.add(new StringToIntConverter());  
 ```  
-5. And some more checkers  
+5. And some more rules  
 ```java  
 actionsExecutor.add(new RangeRule(6, 12, "Value must be in [6, 12] range"));  
 ```  
@@ -36,12 +36,29 @@ Also you can create your own data converters and validators actions by expanding
     
 ### Full example
 ```java
-ActionsExecutor actionsExecutor = new ActionsExecutor()  
-    .add(new NotNullRule<String>("ALARMA! Value cannot be null!"))
-    .add(new NotEmptyRule("String must not be empty! Check input value."))
-    .add(new StringToIntConverter())
-    .add(new RangeRule(6, 12, "Value must be in [6, 12] range"));
-  
+ checkActionsExecutor = new ActionsExecutor<Integer>()
+    .add(new NotNullRule<String>())
+    .add(new NotEmptyRule())
+    .add(new LengthRule(2, 6))
+    .add(new StringToIntConverter("Must contains only digits!"))
+    .add(new RangeRule<>(2, 20, false))
+    .add(new IntToStringConverter())
+    .setListener(new AbstractActionsListener() {
+        @Override
+        public void onSuccess(Object value) {
+            Toast.makeText(DemoActivity.this, String.format("It's all good! Value %d", value), Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onError(ChainActionException convertException) {
+            Toast.makeText(DemoActivity.this,String.format("Sequence failed! %s", convertException.getErrorMessage()), Toast.LENGTH_LONG).show();
+        }
+    })
+    .run("123");
+```
+Or follow the alternative way
+```java
+...
 ActionsResult<Integer> result = actionsExecutor.run("123");  
   
 if (result.isCorrect()) {  
@@ -56,7 +73,7 @@ For simple converting there are few default converters:
 * `IntToStringConverter` - converting Int to String  
 * `StringToIntConverter` - converting String to Int   
   
-## Default checkers  
+## Default rules  
 Default data checkers:  
 * `ConvertibleRule` - checking if value can be converted using specified converter
 * `RegexRule` - checking is it string matching a regex template

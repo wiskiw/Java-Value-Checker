@@ -7,8 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import by.com.fieldsvalidator.demo.R;
+import by.wiskiw.valuetransformer.AbstractActionsListener;
 import by.wiskiw.valuetransformer.ActionsExecutor;
-import by.wiskiw.valuetransformer.ActionsResult;
+import by.wiskiw.valuetransformer.ChainActionException;
 import by.wiskiw.valuetransformer.converter.IntToStringConverter;
 import by.wiskiw.valuetransformer.converter.StringToIntConverter;
 import by.wiskiw.valuetransformer.rule.LengthRule;
@@ -20,7 +21,7 @@ public class DemoActivity extends AppCompatActivity {
 
     private EditText field;
 
-    private ActionsExecutor actionsExecutor;
+    private ActionsExecutor<Integer> checkActionsExecutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,47 +30,36 @@ public class DemoActivity extends AppCompatActivity {
 
         field = findViewById(R.id.field);
 
-        initChain();
+        initCheckActions();
 
         Button convert = findViewById(R.id.start);
         convert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                convert(field.getText().toString());
+                checkActionsExecutor.run(field.getText().toString());
             }
         });
     }
 
-    private void initChain() {
-        actionsExecutor = new ActionsExecutor();
-
-//        actionsExecutor.add(new NotNullRule<String>("Value cannot be null!"))
-//            .add(new NotEmptyRule("Value cannot be empty!"))
-//            .add(new LengthRule("Wrong length!", 2, 6))
-//            .add(new IntParcelableChecker("String must contains only digits!"))
-//            .add(new StringToIntConverter())
-//            .add(new RangeRule("Wrong value. Must be in [2, 20] range", 2, 20));
-
-        actionsExecutor.add(new NotNullRule<String>())
+    private void initCheckActions() {
+        checkActionsExecutor = new ActionsExecutor<Integer>()
+            .add(new NotNullRule<String>())
             .add(new NotEmptyRule())
             .add(new LengthRule(2, 6))
-            .add(new StringToIntConverter())
-//            .add(new ConvertibleRule<>(new StringToIntConverter()))  // - alternative
+            .add(new StringToIntConverter("Must contains only digits!"))
             .add(new RangeRule<>(2, 20, false))
-            .add(new IntToStringConverter());
-    }
+            .add(new IntToStringConverter())
+            .setListener(new AbstractActionsListener() {
+                @Override
+                public void onSuccess(Object value) {
+                    Toast.makeText(DemoActivity.this,
+                        String.format("All data are correct: '%s'", value), Toast.LENGTH_LONG).show();
+                }
 
-    private void convert(String value) {
-        ActionsResult<Integer> result = actionsExecutor.run(value);
-
-        String toastMessage;
-        if (result.isCorrect()) {
-            toastMessage = String.format("All data are correct: '%s'", result.getValue());
-
-        } else {
-            toastMessage = result.getErrorMessage();
-        }
-
-        Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
+                @Override
+                public void onError(ChainActionException convertException) {
+                    Toast.makeText(DemoActivity.this, convertException.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
     }
 }

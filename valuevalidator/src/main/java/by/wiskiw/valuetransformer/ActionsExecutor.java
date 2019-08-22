@@ -8,14 +8,16 @@ import java.util.List;
  *
  * @author Andrey Yablonsky
  */
-public final class ActionsExecutor {
+public final class ActionsExecutor<T> {
 
     private List<ChainAction<Object, Object>> actions = new ArrayList<>();
+
+    private Listener listener;
 
     /**
      * Добавляет {@link ChainAction} в список действий.
      */
-    public ActionsExecutor add(ChainAction<?, ?> action) {
+    public ActionsExecutor<T> add(ChainAction<?, ?> action) {
         actions.add((ChainAction<Object, Object>) action);
         return this;
     }
@@ -23,8 +25,13 @@ public final class ActionsExecutor {
     /**
      * Убирает {@link ChainAction} из списка действий.
      */
-    public ActionsExecutor remove(ChainAction<?, ?> action) {
+    public ActionsExecutor<T> remove(ChainAction<?, ?> action) {
         actions.remove(action);
+        return this;
+    }
+
+    public ActionsExecutor<T> setListener(Listener listener) {
+        this.listener = listener;
         return this;
     }
 
@@ -34,7 +41,7 @@ public final class ActionsExecutor {
      * @param value начально значение
      * @return результат преобразования #value через {@link #actions}
      */
-    public <T> ActionsResult<T> run(Object value) {
+    public ActionsResult<T> run(Object value) {
         ActionsResult<T> result = new ActionsResult<>();
 
         Object currentValue = value;
@@ -45,12 +52,28 @@ public final class ActionsExecutor {
             }
             catch (ChainActionException convertException) {
                 result.setErrorMessage(convertException.getMessage());
+
+                if (listener != null) {
+                    listener.onError(convertException);
+                }
+
                 break;
             }
         }
 
         result.setValue((T) currentValue);
+
+        if (result.isCorrect() && listener != null) {
+            listener.onSuccess((T) currentValue);
+        }
         return result;
+    }
+
+    interface Listener<T> {
+
+        void onSuccess(T value);
+
+        void onError(ChainActionException convertException);
     }
 
 }
