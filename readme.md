@@ -75,12 +75,29 @@ For simple converting there are few default converters:
   
 ## Default rules  
 Default data checkers:  
-* `ConvertibleRule` - checking if value can be converted using specified converter
 * `RegexRule` - checking is it string matching a regex template
 * `LengthRule` - checking the length of a string  
 * `NotEmptyRule` - checking string for emptiness  
 * `RangeRule` - check if `Comparable<T>` value is between range borders  
 * `NotNullRule` - checking object for null  
+
+## How to setup
+Add it in your root build.gradle:
+```groovy
+	allprojects {
+		repositories {
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+Add the dependency to your project build.gradle file:
+```groovy
+	dependencies {
+	        implementation "com.github.wiskiw:Value-Validator:{$version}"
+	}
+```
+Replace `version` with last release version.
   
 ## Contacts & Info  
 Have any questions or suggestions? Chat me [telegram](https://t.me/wiski_w) or mail to ayablonski23@gmail.com

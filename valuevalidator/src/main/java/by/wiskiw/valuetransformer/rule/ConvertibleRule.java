@@ -7,6 +7,7 @@ import by.wiskiw.valuetransformer.converter.ConvertActionException;
  * Class for checking is it possible to convert value of type {@link A} using {@link A} to {@link B} converter.
  *
  * @author Andrey Yablonsky
+ * @deprecated Use {@link ConvertAction} with passed message template.
  */
 public class ConvertibleRule<A, B> extends RuleAction<A> {
 
@@ -15,20 +16,20 @@ public class ConvertibleRule<A, B> extends RuleAction<A> {
 
     /**
      * Main constructor
-     * @param preferredMessageTemplate failed message template. Receive failed value and {@link #converter} class name as arguments.
      * @param converter converter for check
+     * @param messageTemplate failed message template. Receive failed value and {@link #converter} class name as arguments.
      */
-    public ConvertibleRule(String preferredMessageTemplate, ConvertAction<A, B> converter) {
-        super(preferredMessageTemplate);
+    public ConvertibleRule(ConvertAction<A, B> converter, String messageTemplate) {
+        super(messageTemplate);
         this.converter = converter;
     }
 
     /**
      * Additional constructor. Use default failed message template.
-     * @param converter see {@link #ConvertibleRule(String, ConvertAction)}
+     * @param converter see {@link #ConvertibleRule(ConvertAction, String)}
      */
     public ConvertibleRule(ConvertAction<A, B> converter) {
-        this(DEFAULT_ERROR_MESSAGE_FORMAT, converter);
+        this(converter, DEFAULT_ERROR_MESSAGE_FORMAT);
     }
 
     @Override

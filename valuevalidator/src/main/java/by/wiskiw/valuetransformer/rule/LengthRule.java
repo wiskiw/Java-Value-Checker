@@ -12,18 +12,18 @@ public class LengthRule extends RuleAction<String> {
 
     private final RangeRule<Integer> rangeRule;
 
-    public LengthRule(int minLength, int maxLength, String customFormatMessage) {
-        super(customFormatMessage);
+    public LengthRule(int minLength, int maxLength, String messageTemplate) {
+        super(messageTemplate);
 
-        rangeRule = new RangeRule<>(minLength, maxLength, true, customFormatMessage);
+        rangeRule = new RangeRule<>(minLength, maxLength, true, messageTemplate);
     }
 
     public LengthRule(int minLength, int maxLength) {
         this(minLength, maxLength, DEFAULT_ERROR_MESSAGE);
     }
 
-    public LengthRule(int accurateLength, String customFormatMessage) {
-        this(accurateLength, accurateLength, customFormatMessage);
+    public LengthRule(int accurateLength, String messageTemplate) {
+        this(accurateLength, accurateLength, messageTemplate);
     }
 
     public LengthRule(int accurateLength) {

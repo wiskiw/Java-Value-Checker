@@ -12,10 +12,10 @@ public final class IntToStringConverter extends ConvertAction<Integer, String> {
     /**
      * Основной конструктор. Позволяет задать собственный шаблон для сообщения об ошибке.
      *
-     * @param preferredMessageTemplate шаблон сообщения об ошибки
+     * @param messageTemplate шаблон сообщения об ошибки
      */
-    public IntToStringConverter(String preferredMessageTemplate) {
-        super(preferredMessageTemplate);
+    public IntToStringConverter(String messageTemplate) {
+        super(messageTemplate);
     }
 
     public IntToStringConverter() {

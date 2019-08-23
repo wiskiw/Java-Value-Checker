@@ -15,10 +15,10 @@ public class RegexRule extends RuleAction<String> {
 
     /**
      * Main constructor.
-     * @param messageTemplate failed message template. Receive failed value and regex as arguments.
      * @param regexTemplate regex mask for check.
+     * @param messageTemplate failed message template. Receive failed value and regex as arguments.
      */
-    public RegexRule(String messageTemplate, String regexTemplate) {
+    public RegexRule(String regexTemplate, String messageTemplate) {
         super(messageTemplate);
         this.regexTemplate = regexTemplate;
     }
@@ -28,7 +28,7 @@ public class RegexRule extends RuleAction<String> {
      * @param regexTemplate see {@link #RegexRule(String, String)}
      */
     public RegexRule(String regexTemplate) {
-        this(DEFAULT_ERROR_MESSAGE, regexTemplate);
+        this(regexTemplate, DEFAULT_ERROR_MESSAGE);
     }
 
     @Override
