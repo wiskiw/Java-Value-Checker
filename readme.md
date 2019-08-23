@@ -36,25 +36,25 @@ Also you can create your own data converters and validators actions by expanding
     
 ### Full example
 ```java
- checkActionsExecutor = new ActionsExecutor<Integer>()
-    .add(new NotNullRule<String>())
-    .add(new NotEmptyRule())
-    .add(new LengthRule(2, 6))
-    .add(new StringToIntConverter("Must contains only digits!"))
-    .add(new RangeRule<>(2, 20, false))
-    .add(new IntToStringConverter())
-    .setListener(new AbstractActionsListener() {
-        @Override
-        public void onSuccess(Object value) {
-            Toast.makeText(DemoActivity.this, String.format("It's all good! Value %d", value), Toast.LENGTH_LONG).show();
-        }
+checkActionsExecutor = new ActionsExecutor<Integer>()
+   .add(new NotNullRule<String>())
+   .add(new NotEmptyRule())
+   .add(new LengthRule(2, 6))
+   .add(new StringToIntConverter("Must contains only digits!"))
+   .add(new RangeRule<>(2, 20, false))
+   .add(new IntToStringConverter())
+   .setListener(new AbstractActionsListener() {
+       @Override
+       public void onSuccess(Object value) {
+           Toast.makeText(DemoActivity.this, String.format("It's all good! Value %d", value), Toast.LENGTH_LONG).show();
+       }
 
-        @Override
-        public void onError(ChainActionException convertException) {
-            Toast.makeText(DemoActivity.this,String.format("Sequence failed! %s", convertException.getErrorMessage()), Toast.LENGTH_LONG).show();
-        }
-    })
-    .run("123");
+       @Override
+       public void onError(ChainActionException convertException) {
+           Toast.makeText(DemoActivity.this,String.format("Sequence failed! %s", convertException.getErrorMessage()), Toast.LENGTH_LONG).show();
+       }
+   })
+   .run("123");
 ```
 Or follow the alternative way
 ```java
@@ -84,20 +84,20 @@ Default data checkers:
 ## How to setup
 Add it in your root build.gradle:
 ```groovy
-	allprojects {
-		repositories {
-			maven { url 'https://jitpack.io' }
-		}
-	}
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
 Add the dependency to your project build.gradle file:
 ```groovy
-	dependencies {
-	        implementation "com.github.wiskiw:Value-Validator:{$version}"
-	}
+dependencies {
+    implementation "com.github.wiskiw:Value-Validator:{$version}"
+}
 ```
-Replace `version` with last release version.
+Replace `version` with last release version [![](https://jitpack.io/v/wiskiw/Value-Validator.svg)](https://jitpack.io/#wiskiw/Value-Validator) 
   
 ## Contacts & Info  
 Have any questions or suggestions? Chat me [telegram](https://t.me/wiski_w) or mail to ayablonski23@gmail.com
