@@ -70,8 +70,9 @@ if (result.isCorrect()) {
 
 ## Default converters  
 For simple converting there are few default converters:  
-* `IntToStringConverter` - converting Int to String  
-* `StringToIntConverter` - converting String to Int   
+* `RegexReplaceConverter` - replace all sequence of characters that were defined by regex to some replacement
+* `IntToStringConverter` - converting Int to String
+* `StringToIntConverter` - converting String to Int
   
 ## Default rules  
 Default data checkers:  
@@ -97,7 +98,7 @@ dependencies {
     implementation "com.github.wiskiw:Value-Validator:{$version}"
 }
 ```
-Replace `version` with last release version [![](https://jitpack.io/v/wiskiw/Value-Validator.svg)](https://jitpack.io/#wiskiw/Value-Validator) 
+Replace `version` with last release version [![](https://jitpack.io/v/wiskiw/Value-Validator.svg?style=flat-square)](https://jitpack.io/#wiskiw/Value-Validator)
   
 ## Contacts & Info  
 Have any questions or suggestions? Chat me [telegram](https://t.me/wiski_w) or mail to ayablonski23@gmail.com
