@@ -68,6 +68,16 @@ if (result.isCorrect()) {
 }
 ```
 
+### Single action example
+In case you need to run a single action.
+```java
+int value = ...;
+ActionsResult<Integer> result = ActionsExecutor.single(new RangeRule<>(2, 20, false), value)
+if (result.isCorrect()) {  
+    // todo: if value in range [2, 20]
+}
+```
+
 ## Default converters  
 For simple converting there are few default converters:  
 * `RegexReplaceConverter` - replace all sequence of characters that were defined by regex to some replacement

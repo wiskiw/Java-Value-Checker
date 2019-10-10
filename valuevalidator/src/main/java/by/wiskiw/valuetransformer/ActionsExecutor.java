@@ -15,6 +15,36 @@ public final class ActionsExecutor<T> {
     private Listener listener;
 
     /**
+     * Add and immediately execute #action for value #value
+     *
+     * @param action action to execute.
+     * @param value value to process.
+     * @param <I> input value type.
+     * @param <R> result value type.
+     * @return #action execution result for #value.
+     */
+    public static <I, R> ActionsResult<R> single(ChainAction<I, R> action, I value) {
+        return new ActionsExecutor<>(action).run(value);
+    }
+
+    /**
+     * Main constructor
+     */
+    public ActionsExecutor() {
+    }
+
+    /**
+     * Additional constructor.
+     * Add #action to execute chain
+     *
+     * @see #add(ChainAction)
+     * @param action first action in chain to execute.
+     */
+    public ActionsExecutor(ChainAction<?, T> action) {
+        add(action);
+    }
+
+    /**
      * Добавляет {@link ChainAction} в список действий.
      */
     public ActionsExecutor<T> add(ChainAction<?, ?> action) {
