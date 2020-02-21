@@ -2,6 +2,8 @@
 
     <string name="app_name">Fields Validator Demo</string>
 
-    <string name="validate_action_label">START</string>
+    <string name="action_label">RUN</string>
+    <string name="demo_action_hint">Demo</string>
+    <string name="pass_action_hint">Password</string>
 
 </resources>

@@ -3,63 +3,64 @@ package by.wiskiw.fieldsvalidator.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import by.com.fieldsvalidator.demo.R;
-import by.wiskiw.valuetransformer.AbstractActionsListener;
-import by.wiskiw.valuetransformer.ActionsExecutor;
-import by.wiskiw.valuetransformer.ChainActionException;
-import by.wiskiw.valuetransformer.converter.IntToStringConverter;
-import by.wiskiw.valuetransformer.converter.StringToIntConverter;
-import by.wiskiw.valuetransformer.rule.LengthRule;
-import by.wiskiw.valuetransformer.rule.NotEmptyRule;
-import by.wiskiw.valuetransformer.rule.NotNullRule;
-import by.wiskiw.valuetransformer.rule.RangeRule;
+import by.wiskiw.fieldsvalidator.demo.validation.InputValidateException;
 
 public class DemoActivity extends AppCompatActivity {
-
-    private EditText field;
-
-    private ActionsExecutor<Integer> checkActionsExecutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
 
-        field = findViewById(R.id.field);
+        EditText demoField = findViewById(R.id.demoField);
+        findViewById(R.id.demoFieldAction).setOnClickListener(new DemoActionClickListener(demoField));
 
-        initCheckActions();
-
-        Button convert = findViewById(R.id.start);
-        convert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkActionsExecutor.run(field.getText().toString());
-            }
-        });
+        EditText passField = findViewById(R.id.passField);
+        findViewById(R.id.passFieldAction).setOnClickListener(new PasswordClickListener(passField));
     }
 
-    private void initCheckActions() {
-        checkActionsExecutor = new ActionsExecutor<Integer>()
-            .add(new NotNullRule<String>())
-            .add(new NotEmptyRule())
-            .add(new LengthRule(2, 6))
-            .add(new StringToIntConverter("Must contains only digits!"))
-            .add(new RangeRule<>(2, 20, false))
-            .add(new IntToStringConverter())
-            .setListener(new AbstractActionsListener() {
-                @Override
-                public void onSuccess(Object value) {
-                    Toast.makeText(DemoActivity.this,
-                        String.format("All data are correct: '%s'", value), Toast.LENGTH_LONG).show();
-                }
+    private final class DemoActionClickListener implements View.OnClickListener {
 
-                @Override
-                public void onError(ChainActionException convertException) {
-                    Toast.makeText(DemoActivity.this, convertException.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+        private final EditText demoField;
+
+        private DemoActionClickListener(EditText demoField) {
+            this.demoField = demoField;
+        }
+
+        @Override
+        public void onClick(View v) {
+            try {
+                String value = new TextViewSpecificIntValidator().getValid(demoField);
+                Toast.makeText(DemoActivity.this, String.format("All data are correct: '%s'", value),
+                    Toast.LENGTH_SHORT).show();
+            }
+            catch (InputValidateException exception) {
+                Toast.makeText(DemoActivity.this, "Error: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private final class PasswordClickListener implements View.OnClickListener {
+
+        private final EditText passField;
+
+        private PasswordClickListener(EditText passField) {
+            this.passField = passField;
+        }
+
+        @Override
+        public void onClick(View v) {
+            try {
+                String password = new TextViewPasswordValidator().getValid(passField);
+                Toast.makeText(DemoActivity.this, String.format("Password submitted: '%s'", password),
+                    Toast.LENGTH_SHORT).show();
+            }
+            catch (InputValidateException exception) {
+                Toast.makeText(DemoActivity.this, "Error: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

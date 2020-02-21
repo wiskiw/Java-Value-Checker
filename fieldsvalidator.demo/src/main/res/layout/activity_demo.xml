@@ -5,14 +5,44 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <EditText android:id="@+id/field"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"/>
-
-    <Button
-            android:id="@+id/start"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/validate_action_label"/>
+            android:orientation="horizontal">
+
+        <EditText
+                android:id="@+id/demoField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/demo_action_hint" />
+
+        <Button
+                android:id="@+id/demoFieldAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_label" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <EditText
+                android:id="@+id/passField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/pass_action_hint" />
+
+        <Button
+                android:id="@+id/passFieldAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_label" />
+
+    </LinearLayout>
 
 </LinearLayout>

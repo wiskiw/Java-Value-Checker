@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Класс для последовательного выполнения действий {@link ChainAction}.
+ * Класс для последовательного выполнения действий {@link ChainAction}. Transform object of type {@link I} to type {@link R}
  *
  * @author Andrey Yablonsky
  */
-public final class ActionsExecutor<T> {
+public final class ActionsExecutor<I, R> {
 
     private List<ChainAction<Object, Object>> actions = new ArrayList<>();
 
@@ -40,14 +40,14 @@ public final class ActionsExecutor<T> {
      * @see #add(ChainAction)
      * @param action first action in chain to execute.
      */
-    public ActionsExecutor(ChainAction<?, T> action) {
+    public ActionsExecutor(ChainAction<?, R> action) {
         add(action);
     }
 
     /**
      * Добавляет {@link ChainAction} в список действий.
      */
-    public ActionsExecutor<T> add(ChainAction<?, ?> action) {
+    public ActionsExecutor<I, R> add(ChainAction<?, ?> action) {
         actions.add((ChainAction<Object, Object>) action);
         return this;
     }
@@ -55,12 +55,12 @@ public final class ActionsExecutor<T> {
     /**
      * Убирает {@link ChainAction} из списка действий.
      */
-    public ActionsExecutor<T> remove(ChainAction<?, ?> action) {
+    public ActionsExecutor<I, R> remove(ChainAction<?, ?> action) {
         actions.remove(action);
         return this;
     }
 
-    public ActionsExecutor<T> setListener(Listener listener) {
+    public ActionsExecutor<I, R> setListener(Listener listener) {
         this.listener = listener;
         return this;
     }
@@ -71,8 +71,10 @@ public final class ActionsExecutor<T> {
      * @param value начально значение
      * @return результат преобразования #value через {@link #actions}
      */
-    public ActionsResult<T> run(Object value) {
-        ActionsResult<T> result = new ActionsResult<>();
+    public ActionsResult<R> run(I value) {
+        ActionsResult<R> result = new ActionsResult<>();
+
+        // todo добавить проверку каста входного параметра для первого ChainAction
 
         Object currentValue = value;
         for (ChainAction<Object, Object> converter : actions) {
@@ -91,10 +93,11 @@ public final class ActionsExecutor<T> {
             }
         }
 
-        result.setValue((T) currentValue);
+        // todo добавить проверку каста выходного параметра для последнего ChainAction
+        result.setValue((R) currentValue);
 
         if (result.isCorrect() && listener != null) {
-            listener.onSuccess((T) currentValue);
+            listener.onSuccess((R) currentValue);
         }
         return result;
     }

@@ -20,7 +20,7 @@ class ActionsExecutorTest {
 
     @Test
     void singleRuleActionTest() {
-        ActionsExecutor<String> notEmptyRuleExecutor = new ActionsExecutor<>(new NotEmptyRule());
+        ActionsExecutor<String, String> notEmptyRuleExecutor = new ActionsExecutor<>(new NotEmptyRule());
 
         assertTrue(notEmptyRuleExecutor.run("Hello").isCorrect());
         assertFalse(notEmptyRuleExecutor.run("").isCorrect());
@@ -31,7 +31,7 @@ class ActionsExecutorTest {
         int intValue = -123;
         String intValueText = "-123";
 
-        ActionsExecutor<String> intToStringConverterExecutor = new ActionsExecutor<>(new IntToStringConverter());
+        ActionsExecutor<Integer, String> intToStringConverterExecutor = new ActionsExecutor<>(new IntToStringConverter());
 
         ActionsResult<String> correctConvertingResult = intToStringConverterExecutor.run(intValue);
         assertTrue(correctConvertingResult.isCorrect());
