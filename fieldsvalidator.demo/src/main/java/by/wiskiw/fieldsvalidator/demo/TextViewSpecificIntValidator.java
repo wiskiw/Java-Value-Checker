@@ -2,7 +2,7 @@ package by.wiskiw.fieldsvalidator.demo;
 
 import android.widget.TextView;
 import by.wiskiw.fieldsvalidator.demo.validation.InputValidator;
-import by.wiskiw.fieldsvalidator.demo.validation.inputvalidator.ActionsToValidateActionsAdapter;
+import by.wiskiw.fieldsvalidator.demo.validation.validateactions.ActionsToValidateActionsAdapter;
 import by.wiskiw.fieldsvalidator.demo.validation.inputfetcher.TextViewFetcher;
 import by.wiskiw.valuetransformer.ActionsExecutor;
 import by.wiskiw.valuetransformer.converter.CharSequenceToStringConverter;

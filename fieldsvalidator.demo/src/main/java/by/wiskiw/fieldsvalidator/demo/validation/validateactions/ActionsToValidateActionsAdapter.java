@@ -1,10 +1,12 @@
-package by.wiskiw.fieldsvalidator.demo.validation.inputvalidator;
+package by.wiskiw.fieldsvalidator.demo.validation.validateactions;
 
 import by.wiskiw.fieldsvalidator.demo.validation.InputValidateException;
 import by.wiskiw.valuetransformer.ActionsExecutor;
 import by.wiskiw.valuetransformer.ActionsResult;
 
 /**
+ * Адаптер для запуска {@link ActionsExecutor} в качестве валидатора вводных данных {@link InputValidateActions}
+ *
  * @author Andrey Yablonsky on 21.02.2020
  */
 public class ActionsToValidateActionsAdapter<I, O> implements InputValidateActions<I, O> {

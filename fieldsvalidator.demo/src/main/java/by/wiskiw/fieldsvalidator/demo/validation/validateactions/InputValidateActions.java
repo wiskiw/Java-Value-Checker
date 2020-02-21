@@ -1,4 +1,4 @@
-package by.wiskiw.fieldsvalidator.demo.validation.inputvalidator;
+package by.wiskiw.fieldsvalidator.demo.validation.validateactions;
 
 import by.wiskiw.fieldsvalidator.demo.validation.InputValidateException;
 

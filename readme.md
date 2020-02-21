@@ -5,7 +5,7 @@ Long story short, it's a utility for creating transform&validation sequence for 
 ## How to use  
 1. Create your own `ActionsExecutor` object  
 ```java  
-ActionsExecutor actionsExecutor = new ActionsExecutor();  
+ActionsExecutor<String, Integer> actionsExecutor = new ActionsExecutor<>();  
 ```  
 2. Add few `RuleAction` actions for check value  
 ```java  
@@ -36,7 +36,7 @@ Also you can create your own data converters and validators actions by expanding
     
 ### Full example
 ```java
-checkActionsExecutor = new ActionsExecutor<Integer>()
+checkActionsExecutor = new ActionsExecutor<String, Integer>()
    .add(new NotNullRule<String>())
    .add(new NotEmptyRule())
    .add(new LengthRule(2, 6))
@@ -45,7 +45,7 @@ checkActionsExecutor = new ActionsExecutor<Integer>()
    .add(new IntToStringConverter())
    .setListener(new AbstractActionsListener() {
        @Override
-       public void onSuccess(Object value) {
+       public void onSuccess(Integer value) {
            Toast.makeText(DemoActivity.this, String.format("It's all good! Value %d", value), Toast.LENGTH_LONG).show();
        }
 
